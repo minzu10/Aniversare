@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazinul de amintiri</title>
+    <script>
+        const products = [
+            { name: 'Prima poza', price: priceless, image: 'pup.jpg', page: 'pup.html.html' } ,
+            { name: 'Prajituri', price: priceless, image: 'prajituri.png', page: 'prajituri.html' },
+            { name: 'Matchyyyy', price: priceless, image: 'matchy.png', page: 'matchy.html' },
+        ];
+
+        function addToCart(productName, price) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ name: productName, price: price });
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(productName + " a fost adăugat în coș.");
+        }
+
+        function showSuggestions() {
+            const query = document.getElementById('search-bar').value.toLowerCase();
+            const suggestionsBox = document.getElementById('suggestions-box');
+            suggestionsBox.innerHTML = ''; 
+            if (query.length > 0) {
+                const filteredProducts = products.filter(product => product.name.toLowerCase().includes(query));
+                
+                if (filteredProducts.length > 0) {
+                    suggestionsBox.style.display = 'block'; 
+                } else {
+                    suggestionsBox.style.display = 'none'; 
+                }
+
+                filteredProducts.forEach(product => {
+                    const suggestionItem = document.createElement('button');
+                    suggestionItem.classList.add('suggestion-item');
+                    suggestionItem.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" style="width: 30px; height: 30px; margin-right: 10px;">
+                        ${product.name} - ${product.price} RON
+                    `;
+                    suggestionItem.onclick = () => {
+                        window.location.href = product.page;
+                    };
+                    suggestionsBox.appendChild(suggestionItem);
+                });
+            } else {
+                suggestionsBox.style.display = 'none'; 
+            }
+        }
+
+
+        document.addEventListener('click', function(event) {
+            const suggestionsBox = document.getElementById('suggestions-box');
+            const searchBar = document.getElementById('search-bar');
+            if (!searchBar.contains(event.target)) {
+                suggestionsBox.innerHTML = ''; 
+            }
+        });
+    </script>
+    <style>
+        body {
+            background-color: #fff0e8;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header */
+        header {
+            background-color: #872752;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 {
+            color: white;
+            margin: 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            gap: 20px;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 5px;
+            border-radius: 5px;
+            width: 300px;
+        }
+
+        #search-bar {
+            border: none;
+            padding: 5px;
+            font-size: 14px;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        .suggestions {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            margin-top: 5px;
+            z-index: 100;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+        }
+
+        .suggestion-item {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            background-color: #f5f5f5;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .suggestion-item:hover {
+            background-color: #eee;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <h1>Magazinul de amintiri</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Acasă</a></li>
+                <li><a href="produse.html">Produse</a></li>
+                <li><a href="cosultau.html">Coșul meu</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+
+        <!-- Search Bar -->
+        <div class="search-container">
+            <input type="text" id="search-bar" placeholder="Căutare..." onkeyup="showSuggestions()">
+            <div id="suggestions-box" class="suggestions"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main style="padding: 20px;">
+        <h2 style="text-align: center; color: #000000;">OFERTE DE TOP</h2>
+<!-- Produse principale -->
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
+    <!-- Prima poza -->
+    <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+        <a href="pup.html.html"><img src="pup.jpg" alt="Prima poza" style="width: 100%; height: auto;"></a>
+        <h3 style="color: white;">Prima poza</h3>
+        <p style="color: white;"><strong>Descriere:</strong> Prima poza a avut loc in data de 26.05.2025. Eram afara cu prietenele tale si am vrut sa te iau pe sus.</p>
+        <p style="color: white;"><strong>Preț:</strong><del>1000 de pupici</del> 500</p>
+        <button onclick="addToCart('Prima poza', 500)">Adaugă în coș</button>
+    </section>
+
+    <!-- Prajituri -->
+    <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+        <img src="prajituri.jpg" alt="Prajituri" style="width: 100%; height: auto;">
+        <h3 style="color: white;">Prajituri</h3>
+        <p style="color: white;"><strong>Descriere:</strong> PRIMUL NOSTRU DATEEEEEEE, am mers la Savora si am mancat cele mai dulci prajituri, ne-am creat cea mai dulce amintire.</p>
+        <p style="color: white;"><strong>Preț:</strong> <del>2400 pupici</del> 2000</p>
+        <button onclick="addToCart('Prajituri', 2000)">Adaugă în coș</button>
+
+    </section>
+ <!-- Matchy -->
+            <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+                <img src="matchy.jpg" alt="Matchy" style="width: 100%; height: auto;">
+                <h3 style="color: white;">Matchy</h3>
+                <p style="color: white;"><strong>Descriere:</strong> In mijlocul verii, abia mi am cumparat tricoul roz si eram atat de entuziasmat sa facem pozeee.</p>
+                <p style="color: white;"><strong>Preț:</strong><del>1600 pupici</del> 1000 pupici</p>
+                <button onclick="addToCart('Matchy', 1000)">Adaugă în coș</button>
+            </section>
+
+</div>
+
+<!-- Linie de separare -->
+<hr style="margin: 50px auto; border: 2px solid #872752; width: 80%; border-radius: 5px;">
+
+<!-- Alte amintiri -->
+<h2 style="text-align: center; color: #000000;">ALTE AMINTIRI</h2>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px;">
+
+    <!-- Come over -->
+    <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+        <img src="co.jpg" alt="come over" style="width: 100%; height: auto;">
+        <h3 style="color: white;">Come over</h3>
+        <p style="color: white;"><strong>Descriere:</strong> Prima oară când ai venit la mine acasă.</p>
+        <p style="color: white;"><strong>Preț:</strong><del>4400 pupici</del> 3500 pupici</p>
+        <button onclick="addToCart('Come over', 3500)">Adaugă în coș</button>
+    </section>
+
+    <!-- Rate -->
+    <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+        <img src="rate.jpg" alt="Rate" style="width: 100%; height: auto;">
+        <h3 style="color: white;">Rate</h3>
+        <p style="color: white;"><strong>Descriere:</strong> Ce e mai drăguț decât un cuplu de rate?</p>
+        <p style="color: white;"><strong>Preț:</strong><del>200 pupici</del> 100 pupici</p>
+        <button onclick="addToCart('Rate', 100)">Adaugă în coș</button>
+    </section>
+
+    <!-- Buchet de crini -->
+    <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+        <img src="cirni.jpg" alt="Buchet de crini" style="width: 100%; height: auto;">
+        <h3 style="color: white;">Buchet de crini</h3>
+        <p style="color: white;"><strong>Descriere:</strong> Primul buchet de crini pe care ți l-am luat, alături de o scrisoare și un Hello Kitty.</p>
+        <p style="color: white;"><strong>Preț:</strong><del>6600 pupici</del> 4600 pupici</p>
+        <button onclick="addToCart('Buchet de flori', 4600)">Adaugă în coș</button>
+    </section>
+<!-- Nani pui -->
+    <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+        <img src="nani.jpg" alt="come over" style="width: 100%; height: auto;">
+        <h3 style="color: white;">Nani pui</h3>
+        <p style="color: white;"><strong>Descriere:</strong> Prima oară când ai venit la mine acasă si am adormit in bratele tale in timp ce ne uitam la himym</p>
+        <p style="color: white;"><strong>Preț:</strong><del>4400 pupici</del> 3500 pupici</p>
+        <button onclick="addToCart('nani pui', 3500)">Adaugă în coș</button>
+    </section>
+
+    <!-- Spider-man -->
+    <section style="width: 30%; text-align: center; background-color: #555; padding: 20px; border: 1px solid #ccc;">
+        <img src="spid.jpg" alt="Spider-man" style="width: 100%; height: auto;">
+        <h3 style="color: white;">Spider-man</h3>
+        <p style="color: white;"><strong>Descriere:</strong> Suntem 2 dubiosi care au foarte multa forta in piciaore</p>
+        <p style="color: white;"><strong>Preț:</strong><del>2000pupici</del> 1000pupici</p>
+        <button onclick="addToCart('Spider-man, 1000)">Adaugă în coș</button>
+    </section>
+  </div>
+    </main>
+
+    <footer>
+        <p>Contactul nostru: <a href="https://instagram.com/m.rares_andrei" target="_blank">
+            <img src="instagram-logo.png" alt="Instagram" style="height: 20px;">
+        </a></p>
+    </footer>
+
+</body>
+</html>
